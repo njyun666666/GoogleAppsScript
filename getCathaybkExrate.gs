@@ -14,15 +14,31 @@ function getCathaybkExrate() {
     }
 
 
-    if (i === 0) {
+    if (i <= 3) {
       // The result can be accessed through the `m`-variable.
       m.forEach((match, groupIndex) => {
-        console.log(`${i}, Found match, group ${groupIndex}: ${match}`);
 
         if (groupIndex === 1) {
-          sheet.getRange(2, 2).setValue(Number(match));
+          console.log(`${i}, Found match, group ${groupIndex}: ${match}`);
 
+          switch (i) {
+            case 0:
+              sheet.getRange(2, 2).setValue(Number(match));
+              break;
+            case 1:
+              sheet.getRange(3, 2).setValue(Number(match));
+              break;
+            case 2:
+              sheet.getRange(5, 2).setValue(Number(match));
+              break;
+            case 3:
+              sheet.getRange(6, 2).setValue(Number(match));
+              break;
+            default:
+              break;
+          }
         }
+
       });
     }
 
@@ -31,6 +47,6 @@ function getCathaybkExrate() {
 
 
   const dateRegex = /<span class="cubinvest_date">(.+)<\/span>/g;
-  sheet.getRange(3, 2).setValue(dateRegex.exec(str)[1]);
+  sheet.getRange(7, 1).setValue(dateRegex.exec(str)[1]);
 
 }
