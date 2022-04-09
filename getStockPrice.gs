@@ -12,7 +12,7 @@ function getStockPrice() {
       column: 2
     },
     {
-      stock: 'PPGH',
+      stock: 'GGR',
       row: 13,
       column: 2
     },
