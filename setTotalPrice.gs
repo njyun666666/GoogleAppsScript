@@ -14,4 +14,5 @@ function setTotalPrice() {
   totalPriceSheet.getRange(targetRow, 1).setValue(`${today.getUTCFullYear()}-${today.getUTCMonth() + 1}-${today.getUTCDate()}`);
   totalPriceSheet.getRange(targetRow, 2).setValue(parseInt(totalPrice));
   totalPriceSheet.getRange(lastRow, 3).copyTo(totalPriceSheet.getRange(targetRow, 3));
+  totalPriceSheet.sort(1, false);
 }
