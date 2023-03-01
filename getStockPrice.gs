@@ -1,29 +1,45 @@
-function getStockPrice() {
+function enableGetStockPrice() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("data");
+  const isEnable = Boolean(sheet.getRange(1, 4).getValue());
+  console.log(isEnable);
 
-  const stocks = [
-    {
-      stock: 'TSLA',
-      row: 11,
-      column: 2
-    },
-    {
-      stock: 'AMD',
-      row: 12,
-      column: 2
-    },
-    {
-      stock: 'GGR',
-      row: 13,
-      column: 2
-    },
-  ];
-
-  stocks.forEach(item => {
-    getRegularMarketPrice(item);
-  });
-
+  if (isEnable) {
+    getStockPrice();
+  }
 
 }
+
+function getStockPrice() {
+
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("data");
+  const stockList = sheet.getRangeList(['D2:D']);
+  const stockRow = 2;
+  const priceColumn = 5;
+
+  stockList.getRanges()[0].getValues().forEach((item, i) => {
+
+    const stock = item[0].toString();
+
+    if (!stock) {
+      return;
+    }
+    console.log(i, stock);
+
+    const param = {
+      stock: stock,
+      row: stockRow + i,
+      column: priceColumn
+    }
+
+    getRegularMarketPrice(param);
+  })
+
+
+  sheet.getRange(1, 5).setValue(new Date());
+
+}
+
+
 
 
 
