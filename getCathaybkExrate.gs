@@ -1,11 +1,11 @@
-function getCathaybkExrate() {
-  const response = UrlFetchApp.fetch("https://www.cathaybk.com.tw/cathaybk/personal/deposit-exchange/rate/currency-billboard/");
-  const str = response.getContentText();
-  const regex = /<td.*data-title="USD".*>(.+)<\/td>/g;
+function getCathaybkExrate2022() {
+  const str = UrlFetchApp.fetch("https://www.cathaybk.com.tw/cathaybk/personal/product/deposit/currency-billboard/#currency");
+  const regex = /<div>(.+)<\/div>/g;
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("data");
 
   let m;
   let i = 0;
+
 
   while ((m = regex.exec(str)) !== null) {
     // This is necessary to avoid infinite loops with zero-width matches
@@ -15,12 +15,14 @@ function getCathaybkExrate() {
 
 
     if (i <= 3) {
+
+
       // The result can be accessed through the `m`-variable.
       m.forEach((match, groupIndex) => {
 
-        if (groupIndex === 1) {
-          console.log(`${i}, Found match, group ${groupIndex}: ${match}`);
 
+        if (groupIndex === 1) {
+          console.log(`i=${i}, Found match, group ${groupIndex}: ${match}`);
           switch (i) {
             case 0:
               sheet.getRange(2, 2).setValue(Number(match));
@@ -39,14 +41,21 @@ function getCathaybkExrate() {
           }
         }
 
+
       });
+
     }
 
-    i++;
+    i++
+
   }
 
+  // const dateRegex = /<span class="cubinvest_date">(.+)<\/span>/g;
+  // sheet.getRange(7, 1).setValue(dateRegex.exec(str)[1]);
 
-  const dateRegex = /<span class="cubinvest_date">(.+)<\/span>/g;
-  sheet.getRange(7, 1).setValue(dateRegex.exec(str)[1]);
+  const today = new Date();
+  const now = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()} ${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
+
+  sheet.getRange(7, 1).setValue(now);
 
 }
